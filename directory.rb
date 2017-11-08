@@ -1,4 +1,5 @@
 #!/Usr/bin/env ruby
+student_count = 11
 #Printing the list of students
 puts "The students of Villains Academy"
 puts "--------------"
@@ -16,6 +17,4 @@ puts "Norman Bates"
 #Finally, we print out the total number of students
 print "Overall, we have "
 #It's important that print doesn't add a new line
-print 11
-puts " great students"
-puts " "
+puts "Overall, we have #{student_count} great students"
