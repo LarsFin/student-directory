@@ -9,11 +9,7 @@ def input_students
   name = gets.chomp
   #While the name is not empty, repeat this code
   while !name.empty? do
-    puts "What is #{name}'s favourite hobby?"
-    hobby = gets.chomp
-    puts "What is #{name}'s nationality?"
-    nationality = gets.chomp
-    students << {name: name, hobby: hobby, nationality: nationality, cohort: :november}
+    students << {name: name, cohort: :november}
     puts "Now we have #{students.count} students"
     name = gets.chomp
   end
@@ -28,10 +24,7 @@ end
 def print(students)
   checker = 0
   while students.length > checker do
-    puts "#{checker + 1}. #{students[checker][:name]}
-    Hobby: #{students[checker][:hobby]}
-    Nationality: #{students[checker][:nationality]}
-    (#{students[checker][:cohort]} cohort)"
+    puts "#{checker + 1}." + ("#{students[checker][:name]}").center(20) + ("(#{students[checker][:cohort]} cohort)").center(20)
     checker += 1
   end
 end
