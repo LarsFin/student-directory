@@ -23,7 +23,7 @@ end
 
 def print(students)
   students.each_with_index { |student, index|
-    if student[:name].length < 12
+    if (student[:name])[0].upcase == "A"
       puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
     end
   }
