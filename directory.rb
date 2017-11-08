@@ -1,20 +1,23 @@
 #!/Usr/bin/env ruby
-student_count = 11
-#Printing the list of students
+#Let's put all student into an array
+students = [
+  "Dr. Hannibal Lecter",
+  "Darth Vader",
+  "Bowser",
+  "Ganondorf",
+  "Manus",
+  "The Wicked Witch of the West",
+  "Terminator",
+  "Freddy Krueger",
+  "The Joker",
+  "Joffrey Baratheon",
+  "Norman Bates"
+]
+#and then print them
 puts "The students of Villains Academy"
-puts "--------------"
-puts "Dr. Hannibal Lecter"
-puts "Darth Vader"
-puts "Bowser"
-puts "Ganondorf"
-puts "Manus"
-puts "The Wicked Witch of the West"
-puts "Terminator"
-puts "Freddy Krueger"
-puts "The Joker"
-puts "Joffrey Baratheon"
-puts "Norman Bates"
+puts "----------"
+students.each { |student|
+  puts student
+}
 #Finally, we print out the total number of students
-print "Overall, we have "
-#It's important that print doesn't add a new line
-puts "Overall, we have #{student_count} great students"
+puts "Overall, we have #{students.count} great students"
