@@ -24,6 +24,17 @@ def input_students(spell)
   end
 end
 
+def save_students
+  file = File.open("students.csv", "w")
+  @students.each { |student|
+    student_data = [student[:name], student[:cohort], student[:nationality]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  }
+  file.close
+  puts "List saved to students.csv"
+end
+
 @Existing_cohorts = [:January, :February, :March, :April, :May, :June, :July, :August, :September, :October, :November, :December]
 
 spell_check = Proc.new { |month|
@@ -62,6 +73,7 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
+  puts "3. Save the list to students.csv"
   puts "9. Exit"
 end
 
@@ -83,6 +95,8 @@ def process(selection, spell_check)
     end
   when "9"
     exit
+  when "3"
+    save_students
   else
     puts "I don't know what you meant, try again"
   end
