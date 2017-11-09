@@ -61,6 +61,10 @@ def print_footer(names)
 end
 #Calling the methods
 students = input_students(spell_check)
-print_header
-print(students)
-print_footer(students)
+if students.count > 0
+  print_header
+  print(students)
+  print_footer(students)
+else
+  puts "No students"
+end
