@@ -6,18 +6,18 @@ def input_students(spell)
   #Create an empty array
   students = []
   #Get the first name
-  name = gets.chomp
+  name = gets.delete("\n")
   #While the name is not empty, repeat this code
   while !name.empty? do
     while true do
       puts "Which cohort is #{name} in?"
-      month = gets.chomp.downcase.capitalize.to_sym
+      month = gets.delete("\n").downcase.capitalize.to_sym
       month = :November if month.empty?
       break if spell.call(month) != false
       puts "I'm afraid '#{month}' is not a real cohort."
     end
     puts "What is #{name}'s nationality?"
-    nationality = gets.chomp.to_sym
+    nationality = gets.delete("\n").to_sym
     students << {name: name, nationality: nationality, cohort: month}
     puts "Now we have #{students.count} student" + ( students.count > 1 ? "s" : "")
     name = gets.chomp
