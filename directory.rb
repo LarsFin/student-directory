@@ -19,7 +19,7 @@ def input_students(spell)
     puts "What is #{name}'s nationality?"
     nationality = gets.chomp.to_sym
     students << {name: name, nationality: nationality, cohort: month}
-    puts "Now we have #{students.count} students"
+    puts "Now we have #{students.count} student" + ( students.count > 1 ? "s" : "")
     name = gets.chomp
   end
   return students
