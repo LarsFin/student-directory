@@ -17,7 +17,7 @@ def input_students(spell)
       puts "I'm afraid '#{month}' is not a real cohort."
     end
     puts "What is #{name}'s nationality?"
-    nationality = gets.chomp
+    nationality = gets.chomp.to_sym
     students << {name: name, nationality: nationality, cohort: month}
     puts "Now we have #{students.count} students"
     name = gets.chomp
@@ -25,10 +25,12 @@ def input_students(spell)
   return students
 end
 
+$Existing_cohorts = [:January, :February, :March, :April, :May, :June, :July, :August, :September, :October, :November, :December]
+$listNo = 1
+
 spell_check = Proc.new { |month|
-  correct_months = [:January, :February, :March, :April, :May, :June, :July, :August, :September, :October, :November, :December]
   checkr = 0
-  correct_months.each { |correct|
+  $Existing_cohorts.each { |correct|
     checkr += 1 if month != correct
   }
   false if checkr == 12
@@ -40,13 +42,18 @@ def print_header
 end
 
 def print(students)
-  checker = 0
-  while students.length > checker do
-    puts "#{checker + 1}. #{students[checker][:name]}
-    Nationality: #{students[checker][:nationality]}
-    (#{students[checker][:cohort]} cohort)"
-    checker += 1
-  end
+  $Existing_cohorts.each { |month|
+    checker = 0
+    while students.length > checker do
+      if month == students[checker][:cohort]
+        puts "#{$listNo}. #{students[checker][:name]}\n" +
+        "    Nationality: #{students[checker][:nationality]}\n" +
+        "    (#{students[checker][:cohort]} cohort)"
+        $listNo += 1
+      end
+      checker += 1
+    end
+  }
 end
 
 def print_footer(names)
