@@ -57,7 +57,7 @@ def print(students)
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students"
+  puts "Overall, we have #{names.count} great student"  + ( names.count > 1 ? "s" : "")
 end
 #Calling the methods
 students = input_students(spell_check)
