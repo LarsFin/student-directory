@@ -59,12 +59,31 @@ end
 def print_footer(names)
   puts "Overall, we have #{names.count} great student"  + ( names.count > 1 ? "s" : "")
 end
-#Calling the methods
-students = input_students(spell_check)
-if students.count > 0
-  print_header
-  print(students)
-  print_footer(students)
-else
-  puts "No students"
+
+def interactive_menu(spell_check)
+  students = []
+  loop do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+    selection = gets.chomp
+    case selection
+    when "1"
+      students = input_students(spell_check)
+    when "2"
+      if students.count > 0
+        print_header
+        print(students)
+        print_footer(students)
+      else
+        puts "No students to show"
+      end
+    when "9"
+      exit
+    else
+      puts "I don't know what you meant, try again"
+    end
+  end
 end
+
+interactive_menu(spell_check)
