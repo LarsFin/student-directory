@@ -53,7 +53,7 @@ def save_students
     file.puts csv_line
   }
   file.close
-  puts "List saved to students.csv"
+  puts "List successfully saved to students.csv"
 end
 
 def shovel_students(name, cohort, nationality)
@@ -61,12 +61,14 @@ def shovel_students(name, cohort, nationality)
 end
 
 def load_students(filename = "students.csv")
+  @students = []
   file = File.open(filename, "r")
   file.readlines.each { |line|
     name, cohort, nationality = line.chomp.split(",")
     shovel_students(name, cohort, nationality)
   }
   file.close
+  puts "List successfully loaded from students.csv"
 end
 
 @Existing_cohorts = [:January, :February, :March, :April, :May, :June, :July, :August, :September, :October, :November, :December]
