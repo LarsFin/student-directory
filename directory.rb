@@ -2,26 +2,28 @@
 #Let's put all student into an array
 @students = []
 
-def input_students(spell)
-  puts "Please enter the name of the students"
-  puts "To finish, hit enter twice"
-  #Get the first name
+def input_students(proc1)
+  puts "Please enter the name of the students\nTo finish, hit enter twice"
   name = STDIN.gets.delete("\n")
-  #While the name is not empty, repeat this code
   while !name.empty? do
-    while true do
-      puts "Which cohort is #{name} in?"
-      month = STDIN.gets.delete("\n").downcase.capitalize.to_sym
-      month = :November if month.empty?
-      break if spell.call(month) != false
-      puts "I'm afraid '#{month}' is not a real cohort."
-    end
+    month = input_cohort(proc1, name)
     puts "What is #{name}'s nationality?"
     nationality = STDIN.gets.delete("\n").to_sym
     shovel_students(name, month, nationality)
     puts "Now we have #{@students.count} student" + ( @students.count > 1 ? "s" : "")
     name = gets.chomp
   end
+end
+
+def input_cohort(proc1, name)
+  while true do
+    puts "Which cohort is #{name} in?"
+    month = STDIN.gets.delete("\n").downcase.capitalize.to_sym
+    month = :November if month.empty?
+    break if proc1.call(month) != false
+    puts "I'm afraid '#{month}' is not a real cohort."
+  end
+  month
 end
 
 def try_load_students
@@ -83,19 +85,21 @@ def print_header
 end
 
 def print_students_list
-  listNo = 1
+  @listNo = 1
   @Existing_cohorts.each { |month|
     checker = 0
     while @students.length > checker do
-      if month == @students[checker][:cohort]
-        puts "#{listNo}. #{@students[checker][:name]}\n" +
-        "    Nationality: #{@students[checker][:nationality]}\n" +
-        "    (#{@students[checker][:cohort]} cohort)"
-        listNo += 1
-      end
+      puts_info(checker) if month == @students[checker][:cohort]
       checker += 1
     end
   }
+end
+
+def puts_info(checker)
+  puts "#{@listNo}. #{@students[checker][:name]}\n" +
+  "    Nationality: #{@students[checker][:nationality]}\n" +
+  "    (#{@students[checker][:cohort]} cohort)"
+  @listNo += 1
 end
 
 def print_footer
@@ -116,16 +120,12 @@ def show_students
   print_footer
 end
 
-def process(selection, spell_check)
+def process(selection, proc1)
   case selection
   when "1"
-    input_students(spell_check)
+    input_students(proc1)
   when "2"
-    if @students.count > 0
-      show_students
-    else
-      puts "No students to show"
-    end
+    @students.count > 0 ? show_students : puts("No students to show")
   when "3"
     save_students
   when "4"
@@ -137,10 +137,10 @@ def process(selection, spell_check)
   end
 end
 
-def interactive_menu(spell_check)
+def interactive_menu(proc1)
   loop do
     print_menu
-    process(STDIN.gets.chomp, spell_check)
+    process(STDIN.gets.chomp, proc1)
   end
 end
 
