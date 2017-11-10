@@ -6,21 +6,33 @@ def input_students(spell)
   puts "Please enter the name of the students"
   puts "To finish, hit enter twice"
   #Get the first name
-  name = gets.delete("\n")
+  name = STDIN.gets.delete("\n")
   #While the name is not empty, repeat this code
   while !name.empty? do
     while true do
       puts "Which cohort is #{name} in?"
-      month = gets.delete("\n").downcase.capitalize.to_sym
+      month = STDIN.gets.delete("\n").downcase.capitalize.to_sym
       month = :November if month.empty?
       break if spell.call(month) != false
       puts "I'm afraid '#{month}' is not a real cohort."
     end
     puts "What is #{name}'s nationality?"
-    nationality = gets.delete("\n").to_sym
+    nationality = STDIN.gets.delete("\n").to_sym
     @students << {name: name, nationality: nationality, cohort: month}
     puts "Now we have #{@students.count} student" + ( @students.count > 1 ? "s" : "")
     name = gets.chomp
+  end
+end
+
+def try_load_students
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} students from #{filename}"
+  else
+    puts "The file #{filename} doesn't exist."
+    exit
   end
 end
 
@@ -35,8 +47,8 @@ def save_students
   puts "List saved to students.csv"
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each { |line|
     name, cohort, nationality = line.chomp.split(",")
     @students << {name: name, cohort: cohort.to_sym, nationality: nationality.to_sym}
@@ -117,8 +129,9 @@ end
 def interactive_menu(spell_check)
   loop do
     print_menu
-    process(gets.chomp, spell_check)
+    process(STDIN.gets.chomp, spell_check)
   end
 end
 
+try_load_students
 interactive_menu(spell_check)
