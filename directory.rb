@@ -46,13 +46,13 @@ def execute_start
 end
 
 def save_students(filename)
-  file = File.open(filename, "w")
-  @students.each { |student|
-    student_data = [student[:name], student[:cohort], student[:nationality]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  File.open(filename, "w"){ |file|
+    @students.each { |student|
+      student_data = [student[:name], student[:cohort], student[:nationality]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    }
   }
-  file.close
   puts "List successfully saved to #{filename}"
 end
 
@@ -71,12 +71,12 @@ end
 
 def load_students(filename = "students.csv")
   @students = []
-  file = File.open(filename, "r")
-  file.readlines.each { |line|
-    name, cohort, nationality = line.chomp.split(",")
-    shovel_students(name, cohort, nationality)
+  File.open(filename, "r"){ |file|
+    file.readlines.each { |line|
+      name, cohort, nationality = line.chomp.split(",")
+      shovel_students(name, cohort, nationality)
+    }
   }
-  file.close
   puts "List successfully loaded from #{filename}"
 end
 
