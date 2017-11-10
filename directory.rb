@@ -18,7 +18,7 @@ def input_students(spell)
     end
     puts "What is #{name}'s nationality?"
     nationality = STDIN.gets.delete("\n").to_sym
-    @students << {name: name, nationality: nationality, cohort: month}
+    shovel_students(name, month, nationality)
     puts "Now we have #{@students.count} student" + ( @students.count > 1 ? "s" : "")
     name = gets.chomp
   end
@@ -47,11 +47,15 @@ def save_students
   puts "List saved to students.csv"
 end
 
+def shovel_students(name, cohort, nationality)
+  @students << {name: name, cohort: cohort.to_sym, nationality: nationality.to_sym}
+end
+
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each { |line|
     name, cohort, nationality = line.chomp.split(",")
-    @students << {name: name, cohort: cohort.to_sym, nationality: nationality.to_sym}
+    shovel_students(name, cohort, nationality)
   }
   file.close
 end
