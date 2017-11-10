@@ -45,15 +45,24 @@ def execute_start
   end
 end
 
-def save_students
-  file = File.open("students.csv", "w")
+def save_students(filename)
+  file = File.open(filename, "w")
   @students.each { |student|
     student_data = [student[:name], student[:cohort], student[:nationality]]
     csv_line = student_data.join(",")
     file.puts csv_line
   }
   file.close
-  puts "List successfully saved to students.csv"
+  puts "List successfully saved to #{filename}"
+end
+
+def state_file(saveORload)
+  while true
+    filename = STDIN.gets.delete("\n")
+    break if saveORload == "save"
+    File.exist?("#{filename}") ? break : puts("#{filename} does not exist, try again")
+  end
+  return filename
 end
 
 def shovel_students(name, cohort, nationality)
@@ -68,7 +77,7 @@ def load_students(filename = "students.csv")
     shovel_students(name, cohort, nationality)
   }
   file.close
-  puts "List successfully loaded from students.csv"
+  puts "List successfully loaded from #{filename}"
 end
 
 @Existing_cohorts = [:January, :February, :March, :April, :May, :June, :July, :August, :September, :October, :November, :December]
@@ -111,8 +120,8 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list to a file"
+  puts "4. Load the list from a file"
   puts "9. Exit"
 end
 
@@ -129,9 +138,13 @@ def process(selection, proc1)
   when "2"
     @students.count > 0 ? show_students : puts("No students to show")
   when "3"
-    save_students
+    puts "State the file you wish to save the list to;"
+    filename = state_file("save")
+    save_students(filename)
   when "4"
-    load_students
+    puts "State the file you wish to load the list from;"
+    filename = state_file("load")
+    load_students(filename)
   when "9"
     exit
   else
